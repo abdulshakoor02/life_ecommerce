@@ -46,6 +46,13 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
+        $mailData = [
+            'title' => 'Mail from Life.com',
+            'body' => 'Thanks for registering with us.'
+        ];
+
+        Mail::to($request->email)->send(new notfmail($mailData));
+
         event(new Registered($user));
 
         Auth::login($user);

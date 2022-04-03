@@ -8,27 +8,27 @@ import BreezeLabel from '@/Components/Label.vue';
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue';
 import {Inertia} from '@inertiajs/inertia';
 
-const props =defineProps({cart : Array});
+const props =defineProps({transactions : Array});
 console.log(props)
 
-const order = () => {
-    console.log(props.cart);
-    Inertia.post(`/create_order`,{
+const update = (v,id) => {
+    Inertia.post(`/update_trans`,{
         _method:'post',
-        data:props.cart
+        status:v,
+        id:id
     });
 }
 </script>
 
 <template>
-    <Head title="Cart" />
+    <Head title="Transactions" />
 
 
     <BreezeAuthenticatedLayout>
     
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Cart
+                Transactions
             </h2>
         </template>
 
@@ -38,32 +38,37 @@ const order = () => {
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="flex items-center justify-end mt-4">
                         </div>
+                        <div>
+                        ** Transactions will be automated approve and reject will be set by response from payment gateway below is to immitate that
+                        </div>
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th scope="col">Product</th>
-      <th scope="col">quantity</th>
-      <th scope="col">price</th>
-      <th scope="col">total</th>
-      <th scope="col">Delete</th>
+      <th scope="col">Transaction id</th>
+      <th scope="col">order id</th>
+      <th scope="col">status</th>
+      <th scope="col">Update</th>
     </tr>
   </thead>
   <tbody>
-    <tr v-for="crt in cart" :key="crt.id">
-      <td>{{crt.productname}}</td>
-      <td>{{crt.quantity}}</td>
-      <td>{{crt.price}}</td>
-      <td>{{crt.totcharge}}</td>
-      <td><Link :href="`/delete_cart/${crt.id}`" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150">delete</Link>
+    <tr v-for="trn in transactions" :key="trn.id">
+      <td>{{trn.id}}</td>
+      <td>{{trn.orderid}}</td>
+      <td>{{trn.status}}</td>
+      <td>
+      
+<Button class="ml-4" v-on:click="update(1,trn.id)"  >
+                    Approve
+                </Button> / 
+<Button class="ml-4" v-on:click="update(3,trn.id)"  >
+                    Reject
+                </Button>
 </td>
     </tr>
   </tbody>
 </table>         
 <br/>    
 
-<Button class="ml-4" v-on:click="order"  >
-                    Place order
-                </Button>
 
      </div>
                 </div>

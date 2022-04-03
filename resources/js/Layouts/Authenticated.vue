@@ -6,7 +6,6 @@ import BreezeDropdownLink from '@/Components/DropdownLink.vue';
 import BreezeNavLink from '@/Components/NavLink.vue';
 import BreezeResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link } from '@inertiajs/inertia-vue3';
-
 const showingNavigationDropdown = ref(false);
 </script>
 
@@ -39,9 +38,7 @@ const showingNavigationDropdown = ref(false);
           <span class="sr-only">Open main menu</span>
           <!--
             Icon when menu is closed.
-
             Heroicon name: outline/menu
-
             Menu open: "hidden", Menu closed: "block"
           -->
           <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -49,9 +46,7 @@ const showingNavigationDropdown = ref(false);
           </svg>
           <!--
             Icon when menu is open.
-
             Heroicon name: outline/x
-
             Menu open: "block", Menu closed: "hidden"
           -->
           <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -72,6 +67,10 @@ const showingNavigationDropdown = ref(false);
             <BreezeNavLink href="/addproduct" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Add Products</BreezeNavLink>
 
             <BreezeNavLink href="/cart" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Cart</BreezeNavLink>
+
+            <BreezeNavLink href="/transactions" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Transactions</BreezeNavLink>
+
+            <BreezeNavLink href="/orders" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Orders</BreezeNavLink>
 
             <!-- <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</a> -->
 
@@ -97,11 +96,8 @@ const showingNavigationDropdown = ref(false);
     <div class="px-2 pt-2 pb-3 space-y-1"> -->
       <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
       <!-- <Link href="/" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Dashboard</Link>
-
       <Link href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Cart</Link>
-
       <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
-
       <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Calendar</a>
     </div>
   </div> -->

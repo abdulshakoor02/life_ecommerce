@@ -8,27 +8,26 @@ import BreezeLabel from '@/Components/Label.vue';
 import BreezeValidationErrors from '@/Components/ValidationErrors.vue';
 import {Inertia} from '@inertiajs/inertia';
 
-const props =defineProps({cart : Array});
+const props =defineProps({orders : Array ,orderid:['orderid']});
 console.log(props)
 
-const order = () => {
-    console.log(props.cart);
-    Inertia.post(`/create_order`,{
-        _method:'post',
-        data:props.cart
-    });
-}
+// const search = () => {
+//     Inertia.post(`/search_order`,{
+//         _method:'post',
+//         id:props.orderid
+//     });
+// }
 </script>
 
 <template>
-    <Head title="Cart" />
+    <Head title="Order" />
 
 
     <BreezeAuthenticatedLayout>
     
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                Cart
+                Order
             </h2>
         </template>
 
@@ -38,32 +37,33 @@ const order = () => {
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="flex items-center justify-end mt-4">
                         </div>
+
+                        
+      <!-- <div>
+                <BreezeLabel for="search" value="Search order by id" />
+                <BreezeInput id="search" v-on:keyup="search" type="text" class="mt-1 block w-full" style="width:20%" v-model="orderid"   required />
+
+            </div> -->
+
 <table class="table table-bordered">
   <thead>
     <tr>
-      <th scope="col">Product</th>
-      <th scope="col">quantity</th>
-      <th scope="col">price</th>
-      <th scope="col">total</th>
-      <th scope="col">Delete</th>
+      <th scope="col">Products</th>
+      <th scope="col">Total</th>
+      <th scope="col">Status</th>
+      <th scope="col">Order date</th>
     </tr>
   </thead>
   <tbody>
-    <tr v-for="crt in cart" :key="crt.id">
-      <td>{{crt.productname}}</td>
-      <td>{{crt.quantity}}</td>
-      <td>{{crt.price}}</td>
-      <td>{{crt.totcharge}}</td>
-      <td><Link :href="`/delete_cart/${crt.id}`" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150">delete</Link>
-</td>
+    <tr v-for="or in orders" :key="or.id">
+      <td>{{or.products}}</td>
+      <td>{{or.total}}</td>
+      <td>{{or.status}}</td>
+      <td>{{or.created_at}}</td>
     </tr>
   </tbody>
 </table>         
 <br/>    
-
-<Button class="ml-4" v-on:click="order"  >
-                    Place order
-                </Button>
 
      </div>
                 </div>

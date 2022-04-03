@@ -60,7 +60,7 @@ const submit = ()=>{
                 <form @submit.prevent="submit">
 
       <div>
-                <BreezeLabel for="'quantity" value="quantity" />
+                <BreezeLabel for="quantity" value="quantity" />
                 <BreezeInput id="quantity"  type="text" class="mt-1 block w-full" style="width:20%" v-model="form.quantity"   required />
             </div>
 <br/>

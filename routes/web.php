@@ -34,6 +34,13 @@ Route::post('/cart_add','employeeController@cart_add');
 Route::get('/cart','employeeController@cart');
 Route::put('/update/{employee}','employeeController@update');
 Route::get('/delete_cart/{cartid}','employeeController@cart_delete');
+Route::post('/create_order','employeeController@create_order');
+Route::get('/transactions','employeeController@transactions');
+Route::get('/orders','employeeController@orders')->name('orders');
+Route::post('/update_trans','employeeController@update_trans');
+Route::post('/search_order','employeeController@search_order');
+
+
 
 
 

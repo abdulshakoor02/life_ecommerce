@@ -9,9 +9,12 @@ use App\Models\transaction;
 use App\Models\employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Foundation\Application;
 use Illuminate\Auth;
 use Illuminate\Support\Facades\DB;
+use Mail;
+use App\Mail\DemoMail;
 
 
 
@@ -123,6 +126,124 @@ return back();
 
         return back();
         
+    }
+
+    
+
+    public function create_order(Request $request ) {
+                // var_dump($request->post());  
+                $userid = auth()->user()->id;
+                $data = $request->post();
+                $data=$data['data'];
+                $products="";
+                $total=0;
+                foreach($data as $prods){
+                    // var_dump($prods);
+                    $products.=$prods['productname']." x quantity (".$prods['quantity'].") total (".$prods['totcharge'].") ,  ";
+                    $total=$total+$prods['totcharge'];
+                }       
+                // echo $products;
+                // echo $total;
+                $order = order::create([
+                    'userid'=> $userid,
+                    'transactid' => 0,
+                    'products' => $products,
+                    'total' => $total,
+                    'status' =>0
+                ]);
+                $orderid= $order->id;
+
+                
+        $mailData = [
+            'title' => 'Mail from Life.com',
+            'body' => 'Your order is created  for '.$products
+        ];
+
+        Mail::to($request->email)->send(new notfmail($mailData));
+
+                $transaction = transaction::create([
+                    'userid'=> $userid,
+                    'orderid' => $orderid,
+                    'products' => $products,
+                    'status' =>0
+                ]);
+
+                $transactid = $transaction->id;
+                
+                order::where('id','=',$orderid)->update(array('transactid'=>$transactid));
+
+                $tr = transaction::where('userid','=',$userid)->get();
+
+                return Inertia::render('transactions',['transactions'=>$tr]);
+
+    }
+
+    public function transactions() {
+
+        $userid = auth()->user()->id;
+
+        $tr = transaction::where('userid','=',$userid)->get();
+
+        // var_dump($tr);
+
+        return Inertia::render('transactions',['transactions'=>$tr]);
+
+    }
+
+    public function update_trans(Request $request) {
+        $userid = auth()->user()->id;
+
+        var_dump($request->post());
+
+        $tr = transaction::where('id','=',$request->id)->update(array('status'=>$request->status));
+
+        $trans = transaction::where('id','=',$request->id)->get();
+
+
+    
+        $mailData = [
+            'title' => 'Mail from Life.com',
+            'body' => 'Status for your order no'.$trans->orderid.' is '.$trans->status
+        ];
+
+        Mail::to($request->email)->send(new notfmail($mailData));
+
+        return Inertia::render('transactions',['transactions'=>$trans]);
+
+
+    }
+
+    public function orders() {
+
+        $userid = auth()->user()->id;
+
+        $or = order::where('userid','=',$userid)->get();
+
+
+        return Inertia::render('orders',['orders'=>$or]);
+
+    }
+
+    public function search_order(Request $request) {
+
+        $userid = auth()->user()->id;
+
+        if($request->id){
+            
+        $or = order::find($request->id);
+        var_dump($or);
+        // return Inertia::render('orders',['orders'=>$or,'orderid'=>$or->id]);
+        }
+        else {
+            
+        $or = order::where('userid','=',$userid)->get();
+
+        // var_dump($or->attributes);
+
+        return Inertia::render('orders',['orders'=>$or,'orderid'=>$or]);
+        }
+
+
     }
 
     
